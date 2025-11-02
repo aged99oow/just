@@ -18,7 +18,7 @@
 
 ## 実行
 
-* https://github.com/aged99oow/just/raw/refs/heads/main/JustWord.exe?download= ダウンロードして実行します。
+* [JustWord.exe](https://github.com/aged99oow/just/raw/refs/heads/main/JustWord.exe?download=) ダウンロードして実行します。
 * 動作環境は、Windowsです。
 
 ___

@@ -1,6 +1,6 @@
 #
 # Just Right Word
-# JustWord.py 2025/11/01
+# JustWord.py 2025/11/2
 #
 ILLUST_NO = -1  # 最初のイラスト(-1:ランダム)
 WORDCHAIN_MODE = False  # しりとりモード
@@ -462,10 +462,10 @@ class App:
     # ____________________________________________________________________________________________________ init
     def __init__(self):
         if CLIP==1:  # lineclip
-            pyxel.init(WIDTH,HEIGHT, title='Just Right Word', display_scale=2, capture_scale=1, capture_sec=90)
+            pyxel.init(WIDTH,HEIGHT, title='Just Right Word', display_scale=2, capture_scale=2, capture_sec=90)
             self.clip = lineclip.Association()
         else:  # CLIP==0:dummy
-            pyxel.init(WIDTH,HEIGHT, title='Just Right Word (Random Score)', display_scale=2, capture_scale=1, capture_sec=90)
+            pyxel.init(WIDTH,HEIGHT, title='Just Right Word (Random Score)', display_scale=2, capture_scale=2, capture_sec=90)
         pyxel.mouse(True)
         self.holddown = pxt.HoldDown()
         self.pim = pim.PyxelInputMethod()
@@ -547,7 +547,6 @@ class App:
                     else:
                         self.set_initial_letter(all_word=True)  # 全言葉
                         self.allword_cnt += 1
-
             elif self.reloading_cnt==7:  # ランキングクリア
                 self.clr_rank()
             elif self.reloading_cnt==5:  # ランキングセット（ポップアップ）
@@ -646,7 +645,8 @@ class App:
                 self.reloading_cnt = 30
         elif pyxel.btnp(pyxel.KEY_BACKSPACE,10,2):  # BSキー
             self.popup_off()  # ポップアップ消去
-            self.pim.backspace_btn()  # BSキー／ボタン：一文字削除
+            if self.pim.backspace_btn():  # BSキー／ボタン：一文字削除
+                self.set_inpmean_popup()
         elif pyxel.btnp(pyxel.KEY_TAB,10,2) or pyxel.btnp(pyxel.KEY_SPACE,10,2) or pyxel.btnp(pyxel.KEY_RIGHT,10,2):  # TABキー｜SPCキー｜右キー
             self.popup_off()  # ポップアップ消去
             self.pim.right_key()
@@ -661,6 +661,7 @@ class App:
             self.pim.up_key()
         if sum(1 if ord(ch)<=0x7f else 2 for ch in self.pim.fixed_txt+self.pim.entering_txt)<INPUT_MAX_CHARA*2:
             if self.pim.any_key(pyxel.input_text):  # 文字入力(A～Z,a～z,-)
+                self.popup_off()  # ポップアップ消去
                 self.set_inpmean_popup()
 
     # ____________________________________________________________________________________________________ draw
